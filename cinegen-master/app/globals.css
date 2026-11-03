@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap');
+
+/* ─── Design tokens — dark only, no .light class ────────────────────────── */
+:root {
+  /* Surface scale: 3% → 5% → 8% → 12% → 18% lightness */
+  --bg:           240 12%  3%;   /* page background    #080810 */
+  --surface-1:    240 10%  6%;   /* cards / panels     #0e0e18 */
+  --surface-2:    240  9% 10%;   /* elevated / hover   #161624 */
+  --surface-3:    240  8% 14%;   /* inputs, badges     #1e1e2e */
+
+  /* Typography */
+  --text-primary:   0   0% 96%;  /* near white         #f5f5f5 */
+  --text-secondary: 240  5% 65%; /* muted labels       #9a9aac */
+  --text-tertiary:  240  4% 45%; /* placeholder / dim  #6e6e80 */
+
+  /* Brand colours */
+  --violet:    263 75% 65%;      /* #8b5cf6 */
+  --cyan:      189 95% 48%;      /* #06b6d4 */
+  --green:     145 63% 49%;      /* #34d399 */
+  --amber:      38 92% 50%;      /* #f59e0b */
+  --red:          4 86% 58%;     /* #ef4444 */
+
+  /* Borders */
+  --border-subtle:  rgba(255,255,255,0.06);
+  --border-default: rgba(255,255,255,0.10);
+  --border-strong:  rgba(255,255,255,0.18);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+
+  /* ── Tailwind / shadcn compatibility aliases ──────────────────────────── */
+  --background:          var(--bg);
+  --foreground:          var(--text-primary);
+  --card:                var(--surface-1);
+  --card-foreground:     var(--text-primary);
+  --primary:             var(--violet);
+  --primary-foreground:  0 0% 100%;
+  --secondary:           var(--surface-3);
+  --secondary-foreground:var(--text-primary);
+  --muted:               var(--surface-3);
+  --muted-foreground:    var(--text-secondary);
+  --accent:              var(--cyan);
+  --accent-foreground:   0 0% 100%;
+  --border:              240 8% 18%;
+  --input:               240 8% 12%;
+  --ring:                var(--violet);
+  --radius:              0.75rem;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-color: var(--border-subtle);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: hsl(var(--bg));
+  color: hsl(var(--text-primary));
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+/* ─── Typography helpers ─────────────────────────────────────────────────── */
+.font-display { font-family: "Syne", ui-sans-serif, sans-serif; }
+
+/* ─── Gradient text ──────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4, #8b5cf6);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* ─── Glass card — single definition, dark-only ─────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ─── Gradient borders ───────────────────────────────────────────────────── */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.4), rgba(6,182,212,0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ─── Skeleton shimmer ───────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(240 8% 14%) 25%,
+    hsl(240 8% 20%) 50%,
+    hsl(240 8% 14%) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-skeleton 1.5s infinite;
+}
+@keyframes shimmer-skeleton {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Micro-animations ───────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(139,92,246,0.25); }
+  50%       { box-shadow: 0 0 32px rgba(139,92,246,0.55); }
+}
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%;   }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%;   }
+}
+@keyframes shimmer-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%);  }
+}
+
+.animate-float       { animation: float      3s ease-in-out infinite; }
+.animate-glow-pulse  { animation: glow-pulse 2.5s ease-in-out infinite; }
+.animated-gradient-border {
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4, #8b5cf6);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Shimmer overlay */
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  animation: shimmer-slide 2.5s infinite;
+}
+
+/* ─── Card hover ─────────────────────────────────────────────────────────── */
+.luxury-card {
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.luxury-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 64px rgba(139,92,246,0.18), 0 0 40px rgba(6,182,212,0.08);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+::-webkit-scrollbar-thumb {
+  background: rgba(139,92,246,0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.45); }
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(139,92,246,0.35);
+  color: #fff;
+}
+
+/* ─── Focus ring ─────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid hsl(var(--violet));
+  outline-offset: 2px;
+}
+
+/* ─── Grain film overlay ─────────────────────────────────────────────────── */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ─── Utility overrides so Tailwind dark variants work correctly ─────────── */
+/* bg-white/* on dark bg is intentional (frosted glass layers) — no override needed */
+/* text-white/* on dark bg is intentional — no override needed */
+/* These are the only classes that looked "light on dark mixing" */
+
+/* Any card that accidentally got a light-ish bg — force dark surface */
+.card-dark {
+  background-color: hsl(var(--surface-1)) !important;
+  color: hsl(var(--text-primary)) !important;
+}
+
+/* Input fields — consistent dark style */
+input, textarea, select {
+  background-color: hsl(240 8% 10%);
+  color: hsl(var(--text-primary));
+  border-color: rgba(255,255,255,0.10);
+}
+input::placeholder, textarea::placeholder {
+  color: hsl(var(--text-tertiary));
+}
+input:focus, textarea:focus, select:focus {
+  background-color: hsl(240 8% 12%);
+  border-color: rgba(139,92,246,0.5);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.12);
+  outline: none;
+}
+
+/* Select dropdowns (native) — dark */
+select option {
+  background-color: hsl(240 10% 8%);
+  color: hsl(var(--text-primary));
+}
